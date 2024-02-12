@@ -8,13 +8,13 @@
   },
   "private": true,
   "workspaces": [
-   "packages/*"
+    "packages/*"
   ],
   "scripts": {
     "lint": "eslint packages/* --ext .ts",
     "lint:fix": "eslint packages/* --ext .ts --fix",
     "start:dev": "nodemon",
-    "clean":"rimraf ./lib packages/lwdita-xml/lib packages/lwdita-ast/lib",
+    "clean": "rimraf ./lib packages/lwdita-xml/lib packages/lwdita-ast/lib",
     "copy-xml": "mv lib/lwdita-xml packages/lwdita-xml/lib",
     "copy-ast": "mv lib/lwdita-ast packages/lwdita-ast/lib",
     "copy": "yarn copy-xml && yarn copy-ast",
@@ -52,6 +52,7 @@
   "devDependencies": {
     "@types/chai": "^4.3.11",
     "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.16",
     "@typescript-eslint/eslint-plugin": "^2.30.0",
     "@typescript-eslint/parser": "^2.30.0",
     "chai": "^4.3.10",

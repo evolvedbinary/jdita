@@ -55,12 +55,10 @@ export const isNoteNode = (value?: {}): value is NoteNode =>
 /**
  * Construct a `note` node with all available attributes
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns A `note` node
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeNote<T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return makeAll(class extends constructor {
     get 'type'(): CDATA {

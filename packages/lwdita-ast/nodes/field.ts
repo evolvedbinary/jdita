@@ -48,12 +48,10 @@ export const isFieldNode = (value?: {}): value is FieldNode =>
 /**
  * `makeField` - Create a `field` node
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns The `field` node
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeField<ValueType, T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return class extends constructor implements FieldNode<ValueType> {
     get 'name'(): CDATA | undefined {

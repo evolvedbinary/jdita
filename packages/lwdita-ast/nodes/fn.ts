@@ -58,12 +58,10 @@ export const isFnNode = (value?: {}): value is FnNode =>
 /**
  * Create a `fn` node with an `id` and `callout` attribute
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns The `fn` node with an `id` and `callout` attribute and their values
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeFn<T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return makeAll(class extends constructor {
     get 'id'(): ID {

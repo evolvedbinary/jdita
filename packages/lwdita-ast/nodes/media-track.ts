@@ -54,12 +54,10 @@ export const isMediaTrackNode = (value?: {}): value is MediaTrackNode =>
 /**
  * Construct a `media-track` node with all available attributes
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns A `media-track` node
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeMediaTrack<T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return makeAll(class extends constructor {
     get 'type'(): CDATA {

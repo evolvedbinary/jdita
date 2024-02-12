@@ -57,12 +57,10 @@ export const isPreNode = (value?: {}): value is PreNode =>
 /**
  * Construct a `pre` node with all available attributes
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns An `pre` node
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makePre<T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return makeAll(class extends constructor {
     get 'xmlns:space'(): CDATA {

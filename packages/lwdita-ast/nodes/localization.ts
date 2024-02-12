@@ -50,12 +50,10 @@ export const isLocalizationNode = (value?: {}): value is LocalizationNode =>
 /**
  * Create a `localization` node with an `dir`, `xml:lang`, `translate` attribute
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns The `localization` node with an `dir`, `xml:lang`, `translate` attribute and their values
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeLocalization<T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return class extends constructor implements LocalizationNode {
     get 'dir'(): CDATA | undefined {

@@ -60,12 +60,10 @@ export const isTopicNode = (value?: {}): value is TopicNode =>
 /**
  * Construct a `topic` node with all available attributes
  *
- * @privateRemarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns A `topic` node
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeTopic<T extends { new(...args: any[]): BaseNode }>(constructor: T): T  {
   return makeAll(class extends constructor {
     get 'id'(): ID {

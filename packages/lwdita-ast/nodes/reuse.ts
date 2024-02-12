@@ -49,12 +49,10 @@ export const isReuseNode = (value?: {}): value is ReuseNode =>
 /**
  * Create a `reuse` node with an `id` and `conref` attribute
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns The `reuse` node with an `id` and `conref` attribute and their values
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeReuse<T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return class extends constructor implements ReuseNode {
     get 'id'(): NMTOKEN | undefined {

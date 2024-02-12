@@ -2,6 +2,7 @@ import * as saxes from "saxes";
 import { BaseNode, DocumentNode } from "@jdita/lwdita-ast/nodes";
 import { createNode } from "@jdita/lwdita-ast/factory";
 import { JDita } from "./classes";
+import { Visitor, XMLTag } from "@jdita/lwdita-xml/visitor";
 
 /** TODO: Add tests for this module */
 
@@ -102,4 +103,18 @@ export async function xditaToJdita(xml: string, abortOnError = true): Promise<Do
  */
 export async function xditaToJson(xml: string, abortOnError = true): Promise<JDita> {
   return xditaToJdita(xml, abortOnError).then(doc => doc.json);
+}
+
+/**
+ * `serializeToXML` - Serialize the JDita AST and transform it into XML
+ *
+ * @param root - The document root
+ * @param indent - The indentation flag as a Boolean type, for an optional indentation of the output XML
+ * @returns The output stream of the document
+ */
+export function serializeToXML(root: BaseNode, indent: boolean): XMLTag[] {
+  const outStream: XMLTag[] = [];
+  const visitor = new Visitor(outStream);
+  root.accept(visitor, 0, indent);
+  return (outStream);
 }

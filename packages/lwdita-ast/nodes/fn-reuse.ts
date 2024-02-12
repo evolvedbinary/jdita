@@ -45,12 +45,10 @@ export const isFnReuseNode = (value?: {}): value is FnReuseNode =>
 /**
  * Create a `fn-reuse` node with a `conref` attribute
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns The `fn-reuse` node with a `conref` attribute and its value
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeFnReuse<T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return class extends constructor implements FnReuseNode {
     get 'conref'(): CDATA | undefined {

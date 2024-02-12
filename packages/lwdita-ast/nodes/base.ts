@@ -49,13 +49,11 @@ export abstract class BaseNode {
   /**
    * `isValidField` - This is a function template for validation of attributes
    *
-   * @privateRemarks
-   * eslint-disable-next-line `@typescript-eslint/no-unused-vars`s
-   *
    * @param field - A string containing the attribute name
    * @param value - A BasicValue-typed value containing the attribute value
    * @returns Boolean
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   static isValidField(field: string, value: BasicValue): boolean {
     return true;
   }
@@ -230,6 +228,28 @@ export abstract class BaseNode {
     // Else add attribute to element and document tree
     this._props[field] = value;
   }
+
+  /**
+   * `accept` - Accept a visitor
+   *
+   * @remarks
+   * This function is used to traverse the AST
+   *
+   * @param visitor - The accepted visitor which is allowed to retrieve information
+   * @param depth - The node's level within the document tree, needed for indentation, by default set to root level "0"
+   * @param indent - The indentation flag as a Boolean type, for an optional indentation of the outputXML
+   * @returns void
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  accept(visitor: any, depth = 0, indent: boolean): void {
+    if(this.children.length > 0) {
+      visitor.startTag(this.static.nodeName, this._props || {}, depth, false, true, indent);
+      this._children?.forEach(child => child.accept(visitor, depth + 1, indent));
+      visitor.endTag(depth,false, false, indent);
+    } else {
+      visitor.selfClosingTag(this.static.nodeName, this._props || {}, depth, true, true, indent);
+    }
+  }
 }
 
 /**
@@ -240,22 +260,17 @@ export type Constructor = { new(attributes: Attributes): BaseNode };
 /**
  * `makeAll` - This is a template function for all nodes
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @param decorators - The decorator
  * @returns Instance of BaseNode
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeAll<T extends { new(...args: any[]): BaseNode }>(constructor: T, ...decorators: ((constructor: T) => T)[]): T {
   return decorators.reduce((result, decorator) => decorator(result), constructor);
 }
 
 /**
  * `makeComponent` -  A function that returns the constructor of a node
- *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
  *
  * @privateRemarks
  * The concept or processing of `decorator` is not yet fully understood
@@ -267,6 +282,7 @@ export function makeAll<T extends { new(...args: any[]): BaseNode }>(constructor
  * @param childTypes - An Array of allowed child nodes
  * @returns The constructor function of an instance of BaseNode
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeComponent<T extends { new(...args: any[]): BaseNode }>(
   decorator: (constructor: T) => T,
   nodeName: string,

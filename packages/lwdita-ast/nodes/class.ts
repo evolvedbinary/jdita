@@ -49,12 +49,10 @@ export const isClassNode = (value?: {}): value is ClassNode =>
  *
  * @see {@link https://dita-lang.org/lwdita/commonspec/specification/langref/attributes/attribute-groups#attribute-groups__universal-attributes}
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns The `class` node
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function makeClass<T extends { new(...args: any[]): BaseNode }>(constructor: T): T {
   return class extends constructor implements ClassNode {
     get 'outputclass'(): CDATA | undefined {
