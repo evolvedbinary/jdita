@@ -1,0 +1,28 @@
+{
+  "name": "@jdita/lwdita-xdita",
+  "version": "1.0.0",
+  "main": "./lib/index.js",
+  "dependencies": {
+    "saxes": "^6.0.0",
+    "@jdita/lwdita-ast": "1.0.0"
+  },
+  "keywords": [
+    "LwDITA",
+    "DITA",
+    "XML",
+    "JSON"
+  ],
+  "author": "Evolved Binary",
+  "license": "AGPL-3.0",
+  "homepage": "https://github.com/evolvedbinary/jdita#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evolvedbinary/jdita.git"
+  },
+  "bugs": {
+    "url": "https://github.com/evolvedbinary/jdita/issues"
+  },
+  "scripts": {
+    "example": "ts-node ./example.ts"
+  }
+}

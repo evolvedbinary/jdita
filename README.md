@@ -1,10 +1,10 @@
 # JDita
+
 [![Node.js Version](https://img.shields.io/node/v-lts/jdita)](https://nodejs.org)
-[![Npm Package Version](https://img.shields.io/npm/v/jdita)](https://www.npmjs.com/package/jdita)
 [![Build Status](https://circleci.com/gh/evolvedbinary/jdita.svg?style=svg)](https://circleci.com/gh/evolvedbinary/jdita)
 [![Coverage Status](https://coveralls.io/repos/github/evolvedbinary/jdita/badge.svg?branch=main)](https://coveralls.io/github/evolvedbinary/jdita?branch=main)
 
-This tool generates JSON data from XDita files
+This tool generates JSON data from XDita files.
 
 ---
 
@@ -13,15 +13,17 @@ This tool generates JSON data from XDita files
 You can add JDita to your project using `npm` or `yarn`
 
 ```bash
-npm install --save jdita
+npm install --save @jdita/lwdita-xdita
 ```
+
 or
+
 ```bash
-yarn add jdita
+yarn add @jdita/lwdita-xdita
 ```
 
 ```javascript
-const { xditaToJson } = require("jdita");
+const { xditaToJson } = require("@jdita/lwdita-xdita");
 
 const xml = `
 <?xml version="1.0" encoding="UTF-8"?>
@@ -70,15 +72,45 @@ Install all packages:
 yarn install
 ```
 
+### Packages
+
+This project uses [Yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces).
+The current packages, aka. "workspaces" are `lwdita-xdita` and `lwdita-xdita` and can be found in folder `packages/`.
+Package `lwdita-xdita` contains all files and modules for parsing an xml document.
+Package `lwdita-ast` contains all files and modules for creating the abstract syntax tree ("AST") of the parsed XML document, provided by package `lwdita-xdita`.
+
+Both packages depend on each other, as indicated by the `dependency` in their respective package.json files, and they share the same global node modules and commands as declared in the `package.json` file in the root of the project.
+
+If in the future different node modules or commands should be defined for the packages, then you are able to address the packages directly with command
+
+```shell
+yarn workspace <workspace_name> <command>
+```
+
+In the global package.json you can e.g. define specific commands for each package like following pattern:
+
+```json
+"scripts": {
+  "start:package-a": "yarn workspace package-a start",
+  "start:package-b": "yarn workspace package-b start"
+}
+```
+
+To get more information about contained workspaces, run command
+
+```shell
+yarn workspaces info
+```
+
 ### Build
 
 To build the project, run:
 
 ```shell
-yarn build
+yarn run build
 ```
 
-will create a `./lib` folder in the root of the project, which contains binaries that can be copied to your own project.
+This will create a `./lib` folder in the root of each sub-module, which contains binaries that can be copied to your own project.
 
 ### Generate the TSDoc Documentation
 
@@ -97,19 +129,19 @@ This project also has tests which are written using the Mocha framework.
 To execute the test suite and view the code coverage, run:
 
 ```shell
-yarn test
-yarn coverage
+yarn run test
+yarn run coverage
 ```
 
 ### Example
 
-We have an example file to test the conversion: `src/example.ts`.
+We have an example file to test the conversion: `example.ts`.
 This file contains a small example in `XDITA` format.
 
 If you want to test this library and its conversion from `XDITA` to `JDITA`, run:
 
 ```shell
-yarn run ts-node ./src/example.ts
+yarn run example
 ```
 
 ## How JDita Works
