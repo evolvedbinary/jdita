@@ -1,0 +1,7 @@
+{
+  "$schema": "https://typedoc.org/schema.json",
+  "entryPoints": ["./packages/lwdita-xml/index.ts", "./packages/lwdita-ast/index.ts"],
+  "out": "generated-docs",
+  "treatWarningsAsErrors": true,
+  "plugin": ["typedoc-plugin-missing-exports"],
+}

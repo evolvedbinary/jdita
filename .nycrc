@@ -12,7 +12,7 @@
     "coverage/**",
     "node_modules/**",
     "src/tests.ts",
-    "src/example.ts",
+    "example.ts",
     "**/*.d.ts",
     "**/*.spec.ts"
   ],

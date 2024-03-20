@@ -2,23 +2,29 @@
   "name": "jdita",
   "version": "0.2.4",
   "description": "Converts LwDITA XDITA format into JSON (a.k.a JDITA)",
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
   "engines": {
     "node": ">=20.1.0 <21",
     "yarn": ">=1.22.21 <2"
   },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix",
+    "lint": "eslint packages/* --ext .ts",
+    "lint:fix": "eslint packages/* --ext .ts --fix",
     "start:dev": "nodemon",
-    "build": "rimraf ./lib && tsc",
-    "start": "ts-node ./src/example.ts",
+    "clean": "rimraf ./lib packages/lwdita-xml/lib packages/lwdita-ast/lib",
+    "copy-xml": "mv lib/lwdita-xml packages/lwdita-xml/lib",
+    "copy-ast": "mv lib/lwdita-ast packages/lwdita-ast/lib",
+    "copy": "yarn copy-xml && yarn copy-ast",
+    "build": "yarn clean && tsc && yarn copy",
+    "example": "yarn workspace @jdita/lwdita-xml example",
     "test": "mocha",
     "test:watch": "mocha -w",
     "coverage": "rimraf coverage && nyc yarn mocha",
     "coveralls": "nyc --reporter=text-lcov report | coveralls",
-    "generate-docs": "typedoc --treatWarningsAsErrors --out generated-docs src --plugin typedoc-plugin-missing-exports"
+    "generate-docs": "typedoc"
   },
   "repository": {
     "type": "git",
@@ -43,12 +49,10 @@
   "files": [
     "lib"
   ],
-  "dependencies": {
-    "saxes": "^6.0.0"
-  },
   "devDependencies": {
     "@types/chai": "^4.3.11",
     "@types/mocha": "^10.0.6",
+    "@types/node": "^20.11.16",
     "@typescript-eslint/eslint-plugin": "^2.30.0",
     "@typescript-eslint/parser": "^2.30.0",
     "chai": "^4.3.10",
