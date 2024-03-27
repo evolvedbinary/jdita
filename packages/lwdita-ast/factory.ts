@@ -47,9 +47,6 @@ import { UnknownNodeError } from "./ast-classes";
 /**
  * getNodeClass - Get the Node class constructor based on the node type
  *
- * @privateRemarks
- * TODO: Add tests
- *
  * @param name - A string containing the node name
  * @returns - The node class constructor
  * @throws - UnknownNodeError
@@ -126,9 +123,6 @@ export function getNodeClassType(name: string): typeof BaseNode {
  * If the input is a string, the function creates a TextNode.
  * If the input is an XMLNode, the function uses the `getNodeClass` function to create a node of the appropriate type.
  * If the node type is unknown, `getNodeClass` will throw an error.
- *
- * @privateRemarks
- * TODO: Add tests
  *
  * @param node - The XMLNode object or string to be converted into a node.
  *

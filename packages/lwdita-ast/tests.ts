@@ -4,10 +4,6 @@ import { stringToChildTypes } from '@jdita/lwdita-xml/utils';
 import { OrArray } from '@jdita/lwdita-xml/classes';
 import { NonAcceptedChildError, UnknownAttributeError, WrongAttributeTypeError } from "./ast-classes";
 
-// TODO: add a test for creating nodes from XML with valid attributes
-// TODO: add a test for creating nodes from XML with invalid attributes
-// TODO: add a test to set attributes as a property
-// TODO: add a test to get attributes as a property
 // TODO: add a test for checking invalid node
 
 export function doNodeTest(
@@ -59,6 +55,17 @@ export function doNodeTest(
       const node = new (classType as unknown as Constructor)({});
       const childNode = new DocumentNode();
       expect(() => node.add(childNode)).to.throw(NonAcceptedChildError, 'can\'t be a child');
+    });
+
+    it('can create node with valid attributes', () => {
+      const node = new (classType as unknown as Constructor)({ [attribute]: value });
+      expect(node.readProp(attribute)).to.equal(value);
+    });
+
+    //TODO: when created a node with invalid attributes, it should throw an error
+    // Typescript type checking doesn't allow to create a node with invalid attributes
+    it.skip("can't create node with invalid attributes", () => {
+      expect(() => new (classType as unknown as Constructor)({ [attribute]: wrongValue as unknown as string })).to.throw(WrongAttributeTypeError, 'wrong attribute type');
     });
   });
 }
