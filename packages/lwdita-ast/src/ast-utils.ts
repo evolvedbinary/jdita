@@ -20,7 +20,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * When a node is a group we use this list to check if a node name is valid
  */
 const phGroup = ['ph', 'b', 'i', 'u', 'sub', 'sup'];
-const dataGroup = ['data'];
+const dataGroup = ['data', 'cdata'];
 
 /**
  * Node groups

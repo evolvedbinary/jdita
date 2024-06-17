@@ -23,6 +23,7 @@ import { AudioNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { BodyNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { BoldNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { DataNodeAttributes } from "@evolvedbinary/lwdita-ast";
+import { CDataNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { DescNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { DdNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { DlEntryNodeAttributes } from "@evolvedbinary/lwdita-ast";
@@ -36,6 +37,7 @@ import { LiNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { MediaAutoplayNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { MediaControlsNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { MediaLoopNodeAttributes } from "@evolvedbinary/lwdita-ast";
+import { CDataNode } from "@evolvedbinary/lwdita-ast";
 import { MediaMutedNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { MediaSourceNodeAttributes } from "@evolvedbinary/lwdita-ast";
 import { MediaTrackNodeAttributes } from "@evolvedbinary/lwdita-ast";
@@ -78,51 +80,52 @@ import { XRefNodeAttributes } from "@evolvedbinary/lwdita-ast";
  *
  * @throws Will throw an error if the node type is unknown.
  */
-export function createNode(node: string): TextNodeAttributes;
-export function createNode(node: XMLNode<'audio'>): AudioNodeAttributes;
-export function createNode(node: XMLNode<'alt'>): AltNodeAttributes;
-export function createNode(node: XMLNode<'b'>): BoldNodeAttributes;
-export function createNode(node: XMLNode<'body'>): BodyNodeAttributes;
-export function createNode(node: XMLNode<'data'>): DataNodeAttributes;
-export function createNode(node: XMLNode<'dd'>): DdNodeAttributes;
-export function createNode(node: XMLNode<'desc'>): DescNodeAttributes;
-export function createNode(node: XMLNode<'dl'>): DlNodeAttributes;
-export function createNode(node: XMLNode<'dlentry'>): DlEntryNodeAttributes;
-export function createNode(node: XMLNode<'dt'>): DtNodeAttributes;
-export function createNode(node: XMLNode<'fig'>): FigNodeAttributes;
-export function createNode(node: XMLNode<'fn'>): FnNodeAttributes;
-export function createNode(node: XMLNode<'i'>): ItalicNodeAttributes;
-export function createNode(node: XMLNode<'image'>): ImageNodeAttributes;
-export function createNode(node: XMLNode<'li'>): LiNodeAttributes;
-export function createNode(node: XMLNode<'media-autoplay'>): MediaAutoplayNodeAttributes;
-export function createNode(node: XMLNode<'media-controls'>): MediaControlsNodeAttributes;
-export function createNode(node: XMLNode<'media-loop'>): MediaLoopNodeAttributes;
-export function createNode(node: XMLNode<'media-muted'>): MediaMutedNodeAttributes;
-export function createNode(node: XMLNode<'media-source'>): MediaSourceNodeAttributes;
-export function createNode(node: XMLNode<'media-track'>): MediaTrackNodeAttributes;
-export function createNode(node: XMLNode<'note'>): NoteNodeAttributes;
-export function createNode(node: XMLNode<'ol'>): OlNodeAttributes;
-export function createNode(node: XMLNode<'p'>): PNodeAttributes;
-export function createNode(node: XMLNode<'ph'>): PhNodeAttributes;
-export function createNode(node: XMLNode<'pre'>): PreNodeAttributes;
-export function createNode(node: XMLNode<'prolog'>): PrologNodeAttributes;
-export function createNode(node: XMLNode<'section'>): SectionNodeAttributes;
-export function createNode(node: XMLNode<'simpletable'>): SimpleTableNodeAttributes;
-export function createNode(node: XMLNode<'shortdesc'>): ShortDescNodeAttributes;
-export function createNode(node: XMLNode<'stentry'>): StEntryNodeAttributes;
-export function createNode(node: XMLNode<'sthead'>): StHeadNodeAttributes;
-export function createNode(node: XMLNode<'strow'>): StRowNodeAttributes;
-export function createNode(node: XMLNode<'sub'>): SubscriptNodeAttributes;
-export function createNode(node: XMLNode<'sup'>): SuperscriptNodeAttributes;
-export function createNode(node: XMLNode<'title'>): TitleNodeAttributes;
-export function createNode(node: XMLNode<'topic'>): TopicNodeAttributes;
-export function createNode(node: XMLNode<'u'>): UnderlinedNodeAttributes;
-export function createNode(node: XMLNode<'ul'>): UlNodeAttributes;
-export function createNode(node: XMLNode<'video'>): VideoNodeAttributes;
-export function createNode(node: XMLNode<'video-poster'>): VideoPosterNodeAttributes;
-export function createNode(node: XMLNode<'xref'>): XRefNodeAttributes;
-export function createNode<T extends AbstractBaseNode = AbstractBaseNode>(node: XMLNode): T;
-export function createNode<T extends AbstractBaseNode>(node: XMLNode | string): T {
+export function createNode(node: string, cdata?: boolean): TextNodeAttributes;
+export function createNode(node: XMLNode<'audio'>, cdata?: boolean): AudioNodeAttributes;
+export function createNode(node: XMLNode<'alt'>, cdata?: boolean): AltNodeAttributes;
+export function createNode(node: XMLNode<'b'>, cdata?: boolean): BoldNodeAttributes;
+export function createNode(node: XMLNode<'body'>, cdata?: boolean): BodyNodeAttributes;
+export function createNode(node: string, cdata?: boolean): CDataNodeAttributes;
+export function createNode(node: XMLNode<'data'>, cdata?: boolean): DataNodeAttributes;
+export function createNode(node: XMLNode<'dd'>, cdata?: boolean): DdNodeAttributes;
+export function createNode(node: XMLNode<'desc'>, cdata?: boolean): DescNodeAttributes;
+export function createNode(node: XMLNode<'dl'>, cdata?: boolean): DlNodeAttributes;
+export function createNode(node: XMLNode<'dlentry'>, cdata?: boolean): DlEntryNodeAttributes;
+export function createNode(node: XMLNode<'dt'>, cdata?: boolean): DtNodeAttributes;
+export function createNode(node: XMLNode<'fig'>, cdata?: boolean): FigNodeAttributes;
+export function createNode(node: XMLNode<'fn'>, cdata?: boolean): FnNodeAttributes;
+export function createNode(node: XMLNode<'i'>, cdata?: boolean): ItalicNodeAttributes;
+export function createNode(node: XMLNode<'image'>, cdata?: boolean): ImageNodeAttributes;
+export function createNode(node: XMLNode<'li'>, cdata?: boolean): LiNodeAttributes;
+export function createNode(node: XMLNode<'media-autoplay'>, cdata?: boolean): MediaAutoplayNodeAttributes;
+export function createNode(node: XMLNode<'media-controls'>, cdata?: boolean): MediaControlsNodeAttributes;
+export function createNode(node: XMLNode<'media-loop'>, cdata?: boolean): MediaLoopNodeAttributes;
+export function createNode(node: XMLNode<'media-muted'>, cdata?: boolean): MediaMutedNodeAttributes;
+export function createNode(node: XMLNode<'media-source'>, cdata?: boolean): MediaSourceNodeAttributes;
+export function createNode(node: XMLNode<'media-track'>, cdata?: boolean): MediaTrackNodeAttributes;
+export function createNode(node: XMLNode<'note'>, cdata?: boolean): NoteNodeAttributes;
+export function createNode(node: XMLNode<'ol'>, cdata?: boolean): OlNodeAttributes;
+export function createNode(node: XMLNode<'p'>, cdata?: boolean): PNodeAttributes;
+export function createNode(node: XMLNode<'ph'>, cdata?: boolean): PhNodeAttributes;
+export function createNode(node: XMLNode<'pre'>, cdata?: boolean): PreNodeAttributes;
+export function createNode(node: XMLNode<'prolog'>, cdata?: boolean): PrologNodeAttributes;
+export function createNode(node: XMLNode<'section'>, cdata?: boolean): SectionNodeAttributes;
+export function createNode(node: XMLNode<'simpletable'>, cdata?: boolean): SimpleTableNodeAttributes;
+export function createNode(node: XMLNode<'shortdesc'>, cdata?: boolean): ShortDescNodeAttributes;
+export function createNode(node: XMLNode<'stentry'>, cdata?: boolean): StEntryNodeAttributes;
+export function createNode(node: XMLNode<'sthead'>, cdata?: boolean): StHeadNodeAttributes;
+export function createNode(node: XMLNode<'strow'>, cdata?: boolean): StRowNodeAttributes;
+export function createNode(node: XMLNode<'sub'>, cdata?: boolean): SubscriptNodeAttributes;
+export function createNode(node: XMLNode<'sup'>, cdata?: boolean): SuperscriptNodeAttributes;
+export function createNode(node: XMLNode<'title'>, cdata?: boolean): TitleNodeAttributes;
+export function createNode(node: XMLNode<'topic'>, cdata?: boolean): TopicNodeAttributes;
+export function createNode(node: XMLNode<'u'>, cdata?: boolean): UnderlinedNodeAttributes;
+export function createNode(node: XMLNode<'ul'>, cdata?: boolean): UlNodeAttributes;
+export function createNode(node: XMLNode<'video'>, cdata?: boolean): VideoNodeAttributes;
+export function createNode(node: XMLNode<'video-poster'>, cdata?: boolean): VideoPosterNodeAttributes;
+export function createNode(node: XMLNode<'xref'>, cdata?: boolean): XRefNodeAttributes;
+export function createNode<T extends AbstractBaseNode = AbstractBaseNode>(node: XMLNode, cdata?: boolean): T;
+export function createNode<T extends AbstractBaseNode>(node: XMLNode | string, cdata?: boolean): T {
 
   let nodeObject: AbstractBaseNode;
   /**
@@ -142,7 +145,11 @@ export function createNode<T extends AbstractBaseNode>(node: XMLNode | string): 
    * If the node is a text node, it will simply contain its string content.
    */
   if (typeof node === 'string') {
-    nodeObject = new TextNode(node);
+    if(cdata) {
+      nodeObject = new CDataNode(node);
+    } else {
+      nodeObject = new TextNode(node);
+    }
   } else {
     const classType = getNodeClass(node.name);
     return new classType(node.attributes) as T;
