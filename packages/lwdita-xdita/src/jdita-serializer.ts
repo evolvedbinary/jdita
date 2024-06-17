@@ -137,6 +137,11 @@ export class JditaSerializer {
           this.outputStream.emit(String(jdita.content));
         }
 
+      } else if (jdita.nodeName === "cdata") {
+        // if the node is a cdata node, serialize its content and wrap it with the cdata
+        const cdataOpen = `<![CDATA[`;
+        const cdataClose = `]]>`;
+        this.outputStream.emit(cdataOpen + String(jdita.content) + cdataClose);
       } else {
         this.serializeJDitaElement(jdita);
       }
