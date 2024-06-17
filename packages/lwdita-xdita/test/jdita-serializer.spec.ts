@@ -20,6 +20,7 @@ import { expect } from 'chai';
 import { JditaSerializer } from '../src/jdita-serializer';
 import { InMemoryTextSimpleOutputStreamCollector } from '../src/stream';
 import { CDataNode, DocumentNode, TextNode, TitleNode, TopicNode } from "@evolvedbinary/lwdita-ast"
+import { xditaToJdita } from '../src/converter';
 
 describe('jditaSerializer', () => {
   let outStream: InMemoryTextSimpleOutputStreamCollector;
@@ -121,5 +122,21 @@ describe('jditaSerializer', () => {
     // expect the output stream to contain the correct XML with attributes
     expect(outStream.getText()).equal('<topic><title><![CDATA[cdata]]></title></topic>');
   });
+});
 
+describe('complete round trip using jdita serializer', () => {
+  it('round trip from xdita and back with cdata', async () => {
+
+    const orginalXdita = `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD LIGHTWEIGHT DITA Topic//EN" "lw-topic.dtd"><topic><title><![CDATA[cdata]]></title></topic>`
+    
+    const orginalAst = await xditaToJdita(orginalXdita);
+    // perform serialization
+    const outStream = new InMemoryTextSimpleOutputStreamCollector();
+    const serializer = new JditaSerializer(outStream);
+    serializer.serializeFromJdita(orginalAst);
+
+    const xdita = `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD LIGHTWEIGHT DITA Topic//EN" "lw-topic.dtd">` + outStream.getText();
+
+    expect(orginalXdita).deep.equal(xdita);
+  });
 });
