@@ -15,7 +15,6 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { FiltersNodeAttributes, isFiltersNode, FiltersFields, isValidFiltersField, makeFilters } from "./filters";
 import { LocalizationNodeAttributes, isLocalizationNode, LocalizationFields, isValidLocalizationField, makeLocalization } from "./localization";
 import { VariableContentNodeAttributes, isVariableContentNode, VariableContentFields, isValidVariableContentField, makeVariableContent } from "./variable-content";
 import { ReferenceContentNodeAttributes, isReferenceContentNode, ReferenceContentFields, makeReferenceContent, isValidReferenceContentField } from "./reference-content";
@@ -28,14 +27,14 @@ import { CDATA, NMTOKEN, ReferenceContentScope } from "../ast-classes";
 
 /**
  * Define all allowed `image` attributes:
- * `props`, `dir`, `xml:lang`, `translate`, `keyref`, `outputclass`, `class`, `scale`, `href`, `format`, `scope`, `width`, `height`
+ * `dir`, `xml:lang`, `translate`, `href`, `format`, `scope`, `width`, `height`, `keyref`, `outputclass`, `class`
  */
-export const ImageFields = [...FiltersFields, ...LocalizationFields, ...VariableContentFields, ...ReferenceContentFields, ...ClassFields, ...SizeFields];
+export const ImageFields = [...LocalizationFields, ...ReferenceContentFields, ...SizeFields, ...VariableContentFields, ...ClassFields];
 
 /**
  * Interface ImageNodeAttributes defines the attribute types for `image`
  */
-export interface ImageNodeAttributes extends SizeNodeAttributes, FiltersNodeAttributes, LocalizationNodeAttributes, VariableContentNodeAttributes, ReferenceContentNodeAttributes, ClassNodeAttributes, BaseNode { }
+export interface ImageNodeAttributes extends SizeNodeAttributes, LocalizationNodeAttributes, VariableContentNodeAttributes, ReferenceContentNodeAttributes, ClassNodeAttributes, BaseNode { }
 
 /**
  * Check if the `image` node is valid
@@ -53,12 +52,11 @@ export interface ImageNodeAttributes extends SizeNodeAttributes, FiltersNodeAttr
 export const isImageNodes = (value?: unknown): value is ImageNodeAttributes =>
   typeof value === 'object' &&
   !!value &&
-  isClassNode(value) &&
-  isFiltersNode(value) &&
   isLocalizationNode(value) &&
   isReferenceContentNode(value) &&
+  isSizeNode(value) &&
   isVariableContentNode(value) &&
-  isSizeNode(value);
+  isClassNode(value);
 
 /**
  * Check if the given attributes of the `image` node are valid and match this list:
@@ -71,7 +69,6 @@ export const isImageNodes = (value?: unknown): value is ImageNodeAttributes =>
 export const isValidImageField = (field: string, value: BasicValue): boolean => isValidLocalizationField(field, value)
   || isValidClassField(field, value)
   || isValidReferenceContentField(field, value)
-  || isValidFiltersField(field, value)
   || isValidVariableContentField(field, value)
   || isValidSizeField(field, value);
 
@@ -97,7 +94,7 @@ export const isImageNode = (value?: unknown): value is ImageNodeAttributes =>
  * @returns An `image` node
  */
 export function makeImage<T extends Constructor>(constructor: T): T {
-  return makeAll(constructor, makeLocalization, makeFilters, makeVariableContent, makeClass, makeReferenceContent, makeSize);
+  return makeAll(constructor, makeLocalization, makeVariableContent, makeClass, makeReferenceContent, makeSize);
 }
 
 
@@ -114,27 +111,25 @@ export function makeImage<T extends Constructor>(constructor: T): T {
  */
 @makeComponent(makeImage, 'image', isValidImageField, ImageFields, ['alt?'])
 export class ImageNode extends AbstractBaseNode implements ImageNodeAttributes {
-  // ClassNodeAttributes
-  'outputclass'?: CDATA
-  'class'?: CDATA
-
-  // ReferenceContentNodeAttributes
-  'href'?: CDATA
-  'format'?: CDATA
-  'scope'?: ReferenceContentScope
-
-  // VariableContentNodeAttributes
-  'keyref'?: CDATA
 
   // LocalizationNodeAttributes
   'dir'?: CDATA
   'xml:lang'?: CDATA
   'translate'?: CDATA
 
-  // FiltersNodeAttributes
-  'props'?: CDATA
+  // ReferenceContentNodeAttributes
+  'href'?: CDATA
+  'format'?: CDATA
+  'scope'?: ReferenceContentScope
 
   // SizeNodeAttributes
-  'width'?: NMTOKEN
   'height'?: NMTOKEN
+  'width'?: NMTOKEN
+
+  // VariableContentNodeAttributes
+  'keyref'?: CDATA
+
+  // ClassNodeAttributes
+  'outputclass'?: CDATA
+  'class'?: CDATA
 }

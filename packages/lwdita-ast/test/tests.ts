@@ -34,10 +34,10 @@ export function doNodeTest(
   wrongValue = false,
 ): void {
   describe('Node: ' + nodeName, () => {
-    it('should have correct fields', () => {
+    it('should have correct fields: ' + fields, () => {
       assert.sameMembers(classType.fields, fields);
     });
-    it('should have correct node name', () => {
+    it('should have correct node name: ' + nodeName, () => {
       assert.equal(classType.nodeName, nodeName);
     });
     it('should be a correct node', () => {

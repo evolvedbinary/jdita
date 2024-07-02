@@ -71,17 +71,17 @@ export function makeDt<T extends Constructor>(constructor: T): T {
 }
 
 /**
- * Create a `dt` node
+ * Create a `dt` (Description term) node
  *
  * @decorator `@makeComponent`
  * @param makeDt - The `dt` node constructor
  * @param nodeName - A string containing the node name
  * @param isValidDtField - A boolean value, if the attribute is valid or not
  * @param DtFields - An array containing all valid attribute names @See {@link DtFields}
- * @param childNodes - An array containing all valid child node names: `%common-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `data`)
+ * @param childNodes - An array containing all valid child node names: `%inline*` (`text`, `b`, `em`, `i`, `ph`, `strong`, `sub`, `sup`, `tt`, `u`, `image`, `xref`)
  * @returns A `dt` node
  */
-@makeComponent(makeDt, 'dt', isValidDtField, DtFields, ['%all-inline*'])
+@makeComponent(makeDt, 'dt', isValidDtField, DtFields, ['%inline*'])
 export class DtNode extends AbstractBaseNode implements DtNodeAttributes {
   static domNodeName = 'dt';
 

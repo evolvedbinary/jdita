@@ -71,7 +71,7 @@ export function makeDl<T extends Constructor>(constructor: T): T {
 }
 
 /**
- * Create a `dl` node
+ * Create a `dl` (Description list) node
  *
  * @decorator `@makeComponent`
  * @param makeDl - The `dl` node constructor

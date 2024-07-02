@@ -17,6 +17,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { doNodeTest } from "./tests";
 import { SuperscriptNode, isSuperscriptNode } from "../src/nodes/superscript";
-doNodeTest(SuperscriptNode, 'sup', isSuperscriptNode,
-  ['dir', 'xml:lang', 'translate', 'keyref', 'outputclass', 'class'],
-  ['%all-inline*']);
+import { expect } from "chai";
+
+doNodeTest(
+  SuperscriptNode,
+  'sup',
+  isSuperscriptNode,
+  ['outputclass', 'class', 'keyref', 'dir', 'xml:lang', 'translate'],
+  ['%inline.noimage*']
+);
+
+describe('Class SuperscriptNode', () => {
+  it('sets correct attributes', () => {
+    const sup = new SuperscriptNode({});
+
+    sup.keyref = "keyref";
+    sup.outputclass = "outputclass";
+    sup.class = "class";
+    sup.dir = "dir";
+    sup["xml:lang"] = "lang";
+    sup.translate = "translate";
+
+    expect(sup.keyref).to.equal("keyref");
+    expect(sup.outputclass).to.equal("outputclass");
+    expect(sup.class).to.equal("class");
+    expect(sup.dir).to.equal("dir");
+    expect(sup["xml:lang"]).to.equal("lang");
+    expect(sup.translate).to.equal("translate");
+  });
+});

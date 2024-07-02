@@ -17,6 +17,42 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { doNodeTest } from "./tests";
 import { FigNode, isFigNode } from "../src/nodes/fig";
-doNodeTest(FigNode, 'fig', isFigNode,
-  ['scale', 'frame', 'expanse', 'dir', 'xml:lang', 'translate', 'props', 'outputclass', 'class'],
-  ['title?', 'desc?', '(%fig-blocks|image|xref)*']);
+import { expect } from "chai";
+
+doNodeTest(
+  FigNode,
+  'fig',
+  isFigNode,
+  ['scale', 'frame', 'expanse', 'dir', 'xml:lang', 'translate', 'props', 'id', 'conref', 'outputclass', 'class'],
+  ['title?', 'desc?', '(%fig-blocks|image|xref)*']
+);
+
+describe('Class FigNode', () => {
+  it("sets correct attributes", () => {
+    const fig = new FigNode({});
+
+    fig.scale = 100;
+    fig.frame = "all";
+    fig.expanse = "page";
+    fig.dir = "dir";
+    fig["xml:lang"] = "lang";
+    fig.translate = "translate";
+    fig.props = "props";
+    fig.id = "id";
+    fig.conref = "conref";
+    fig.outputclass = "outputclass";
+    fig.class = "class";
+
+    expect(fig.scale).to.equal(100);
+    expect(fig.frame).to.equal("all");
+    expect(fig.expanse).to.equal("page");
+    expect(fig.dir).to.equal("dir");
+    expect(fig["xml:lang"]).to.equal("lang");
+    expect(fig.translate).to.equal("translate");
+    expect(fig.props).to.equal("props");
+    expect(fig.id).to.equal("id");
+    expect(fig.conref).to.equal("conref");
+    expect(fig.outputclass).to.equal("outputclass");
+    expect(fig.class).to.equal("class");
+  });
+});

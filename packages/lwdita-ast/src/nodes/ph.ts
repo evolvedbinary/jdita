@@ -62,9 +62,6 @@ export const isPhNode = (value?: unknown): value is PhNodeAttributes =>
 /**
  * Construct a `ph` node with all available attributes
  *
- * @remarks
- * eslint-disable-next-line `@typescript-eslint/no-explicit-any`
- *
  * @param constructor - The constructor
  * @returns A `ph` node
  */
@@ -73,16 +70,16 @@ export function makePh<T extends Constructor>(constructor: T): T {
 }
 
 /**
- * Create a `ph` node (phrase) and map the `ph` node with the LwDita tag name `span`
+ * Create a `ph` node (Phrase Content) and map the `ph` node with the LwDita tag name `span`
  *
  * @decorator `@makeComponent`
  * @param makePh - The `ph` node constructor
  * @param nodeName - A string containing the node name
  * @param isValidPhField - A boolean value, if the attribute is valid or not
  * @param fields - A List of valid attributes @See {@link PhFields}
- * @param childNodes - An Array of allowed child node `%all-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `xref`, `data`)
+ * @param childNodes - An Array of allowed child node `%inline*` (`text`, `b`, `em`, `i`, `ph`, `strong`, `sub`, `sup`, `tt`, `u`, `image`, `xref`)
  */
-@makeComponent(makePh, 'ph', isValidPhField, PhFields, ['%all-inline*'])
+@makeComponent(makePh, 'ph', isValidPhField, PhFields, ['%inline*'])
 export class PhNode extends AbstractBaseNode implements PhNodeAttributes {
   static domNodeName = 'span';
 

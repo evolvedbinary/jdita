@@ -26,7 +26,7 @@ import { CDATA, NMTOKEN } from "../ast-classes";
 
 /**
  * Define all allowed `p` attributes:
- * `props`, `dir`, `xml:lang`, `translate`, `'id`, `conref'`, `class`, `outputclass`
+ * `props`, `dir`, `xml:lang`, `translate`, `id`, `conref`, `class`, `outputclass`
  */
 export const PFields = [...FiltersFields, ...LocalizationFields, ...ReuseFields, ...ClassFields];
 

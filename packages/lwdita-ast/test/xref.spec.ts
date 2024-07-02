@@ -17,6 +17,40 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { doNodeTest } from "./tests";
 import { XRefNode, isXRefNode } from "../src/nodes/xref";
-doNodeTest(XRefNode, 'xref', isXRefNode,
-  ['href', 'format', 'scope', 'dir', 'xml:lang', 'translate', 'props', 'keyref', 'outputclass', 'class'],
-  ['%common-inline*']);
+import { expect } from "chai";
+
+doNodeTest(
+  XRefNode,
+  'xref',
+  isXRefNode,
+  ['props', 'dir', 'xml:lang', 'translate', 'href', 'format', 'scope', 'keyref','outputclass', 'class'],
+  ['%inline.noxref*']
+);
+
+describe('Class XRefNode', () => {
+  it("sets correct attributes", () => {
+    const xref = new XRefNode({});
+
+    xref.props = "props";
+    xref.dir = "dir";
+    xref["xml:lang"] = "lang";
+    xref.translate = "translate";
+    xref.href = "href";
+    xref.format = "format";
+    xref.scope = "local";
+    xref.keyref = "keyref";
+    xref.outputclass = "outputclass";
+    xref.class = "class";
+
+    expect(xref.props).to.equal("props");
+    expect(xref.dir).to.equal("dir");
+    expect(xref["xml:lang"]).to.equal("lang");
+    expect(xref.translate).to.equal("translate");
+    expect(xref.href).to.equal("href");
+    expect(xref.format).to.equal("format");
+    expect(xref.scope).to.equal("local");
+    expect(xref.keyref).to.equal("keyref");
+    expect(xref.outputclass).to.equal("outputclass");
+    expect(xref.class).to.equal("class");
+  });
+});

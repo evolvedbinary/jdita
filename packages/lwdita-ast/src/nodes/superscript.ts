@@ -16,14 +16,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { ClassNodeAttributes, ClassFields, isValidClassField, makeClass } from "./class";
-import { ReuseNodeAttributes } from "./reuse";
 import { LocalizationNodeAttributes, LocalizationFields, isValidLocalizationField, makeLocalization } from "./localization";
-import { FiltersNodeAttributes } from "./filters";
 import { areFieldsValid } from "../utils";
 import { makeComponent, AbstractBaseNode, BaseNode, makeAll, Constructor } from "./base";
-import { VariableContentFields, isValidVariableContentField, makeVariableContent } from "./variable-content";
+import { VariableContentFields, VariableContentNodeAttributes, isValidVariableContentField, makeVariableContent } from "./variable-content";
 import { BasicValue } from "../classes";
-import { CDATA, NMTOKEN } from "../ast-classes";
+import { CDATA } from "../ast-classes";
 
 /**
  * Define all allowed `superscript` attributes:
@@ -33,9 +31,8 @@ export const SuperscriptFields = [...LocalizationFields, ...VariableContentField
 
 /**
  * Interface SuperscriptNodeAttributes defines the attribute types for `superscript`:
- * `CDATA`, `NMTOKEN`
  */
-export interface SuperscriptNodeAttributes extends FiltersNodeAttributes, LocalizationNodeAttributes, ReuseNodeAttributes, ClassNodeAttributes, BaseNode { }
+export interface SuperscriptNodeAttributes extends LocalizationNodeAttributes, VariableContentNodeAttributes, ClassNodeAttributes, BaseNode { }
 
 /**
  * Check if the given attributes of the `superscript` node are valid
@@ -73,33 +70,26 @@ export function makeSuperscript<T extends Constructor>(constructor: T): T {
 /**
  * Create a `superscript` node and map the `superscript` node with the LwDita tag name `sup`
  *
- * @privateRemarks
- * TODO: Implement "+ topic/ph hi-d/sup "
- *
  * @decorator `@makeComponent`
  * @param makeSuperscript - The `superscript` node constructor
  * @param nodeName - A string containing the node name
  * @param isValidSuperscriptField - A boolean value, if the attribute is valid or not
  * @param fields - A List of valid attributes @see {@link SuperscriptFields}
- * @param childNodes - An Array of allowed child nodes: `%all-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `xref`, `data`)
+ * @param childNodes - An Array of allowed child nodes `text`, `ph`, `xref`
  */
-@makeComponent(makeSuperscript, 'sup', isValidSuperscriptField, SuperscriptFields, ['%all-inline*'])
+@makeComponent(makeSuperscript, 'sup', isValidSuperscriptField, SuperscriptFields, ['%inline.noimage*'])
 export class SuperscriptNode extends AbstractBaseNode implements SuperscriptNodeAttributes {
   static domNodeName = 'sup'
-
-  // ClassNodeAttributes
-  'outputclass'?: CDATA
-  'class'?: CDATA
-
-  // ReuseNodeAttributes
-  'id'?: NMTOKEN
-  'conref'?: CDATA
 
   // LocalizationNodeAttributes
   'dir'?: CDATA
   'xml:lang'?: CDATA
   'translate'?: CDATA
 
-  // FiltersNodeAttributes
-  'props'?: CDATA
+  // VariableContentNodeAttributes
+  'keyref'?: CDATA
+
+  // ClassNodeAttributes
+  'outputclass'?: CDATA
+  'class'?: CDATA
 }

@@ -17,6 +17,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { doNodeTest } from "./tests";
 import { BoldNode, isBoldNode } from "../src/nodes/bold";
-doNodeTest(BoldNode, 'b', isBoldNode,
-  ['dir', 'xml:lang', 'translate', 'keyref', 'outputclass', 'class'],
-  ['%all-inline*']);
+import { expect } from "chai";
+
+doNodeTest(
+  BoldNode,
+  'b',
+  isBoldNode,
+  ['outputclass', 'class', 'keyref', 'dir', 'xml:lang', 'translate'],
+  ['%inline.noimage*']
+);
+
+describe('Class BoldBode', () => {
+  it('sets correct attributes', () => {
+    const b = new BoldNode({});
+
+    b.keyref = "keyref";
+    b.outputclass = "outputclass";
+    b.class = "class";
+    b.dir = "dir";
+    b["xml:lang"] = "lang";
+    b.translate = "translate";
+
+    expect(b.keyref).to.equal("keyref");
+    expect(b.outputclass).to.equal("outputclass");
+    expect(b.class).to.equal("class");
+    expect(b.dir).to.equal("dir");
+    expect(b["xml:lang"]).to.equal("lang");
+    expect(b.translate).to.equal("translate");
+  });
+});

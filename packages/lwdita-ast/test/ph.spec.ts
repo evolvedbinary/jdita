@@ -17,6 +17,34 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { doNodeTest } from "./tests";
 import { PhNode, isPhNode } from "../src/nodes/ph";
-doNodeTest(PhNode, 'ph', isPhNode,
-  ['dir', 'xml:lang', 'translate', 'props', 'keyref', 'outputclass', 'class'],
-  ['%all-inline*']);
+import { expect } from "chai";
+
+doNodeTest(
+  PhNode,
+  'ph',
+  isPhNode,
+  ['props', 'dir', 'xml:lang', 'translate', 'keyref', 'class', 'outputclass'],
+  ['%inline*']
+);
+
+describe('Class PhNode', () => {
+  it("sets correct attributes", () => {
+    const ph = new PhNode({});
+
+    ph.props = "props";
+    ph.dir = "dir";
+    ph["xml:lang"] = "lang";
+    ph.translate = "translate";
+    ph.keyref = "keyref";
+    ph.outputclass = "outputclass";
+    ph.class = "class";
+
+    expect(ph.props).to.equal("props");
+    expect(ph.dir).to.equal("dir");
+    expect(ph["xml:lang"]).to.equal("lang");
+    expect(ph.keyref).to.equal("keyref");
+    expect(ph.translate).to.equal("translate");
+    expect(ph.outputclass).to.equal("outputclass");
+    expect(ph.class).to.equal("class");
+  });
+});

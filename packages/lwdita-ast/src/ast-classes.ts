@@ -55,6 +55,19 @@ export const isReferenceContentScope = (value?: BasicValue): value is ReferenceC
 export type ReferenceContentScope = 'local' | 'peer' | 'external';
 
 /**
+ * ProcessingRole defines all possible values for the `processing-role` attribute
+ */
+export type ProcessingRole = 'normal' | 'resource-only';
+
+/**
+ * ProcessingRole validation function
+ *
+ * @param value - String
+ * @returns - If the value is a ProcessingRole
+ */
+export const isProcessingRole = (value?: BasicValue): value is ProcessingRole => ['normal', 'resource-only'].includes(value as string);
+
+/**
  * TODO(AR) can we further refine these types?
  */
 export type ID = string;
@@ -92,6 +105,16 @@ export type NMTOKEN = string;
  * NMTOKEN validation function
  */
 export const isNMTOKEN = (value?: BasicValue): value is NMTOKEN => typeof value === 'string';
+
+/**
+ * INCLUDED_DOMAINS character data
+ */
+export type INCLUDED_DOMAINS = '&included-domains;';
+
+/**
+ * PCData validation function
+ */
+export const isINCLUDED_DOMAINS = (value?: BasicValue): value is INCLUDED_DOMAINS => typeof value === 'string';
 
 /**
  * DisplayScale defines all possible values for the `scale` attribute

@@ -16,16 +16,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { ClassNodeAttributes, ClassFields, isValidClassField, makeClass } from "./class";
-import { ReuseNodeAttributes } from "./reuse";
 import { LocalizationNodeAttributes, LocalizationFields, isValidLocalizationField, makeLocalization } from "./localization";
-import { FiltersNodeAttributes } from "./filters";
 import { areFieldsValid } from "../utils";
 import { makeComponent, AbstractBaseNode, BaseNode, makeAll, Constructor } from "./base";
-import { VariableContentFields, isValidVariableContentField, makeVariableContent } from "./variable-content";
+import { VariableContentFields, VariableContentNodeAttributes, isValidVariableContentField, makeVariableContent } from "./variable-content";
 import { BasicValue } from "../classes";
-import { CDATA, NMTOKEN } from "../ast-classes";
-
-/** TODO: Implement "+ topic/ph hi-d/b " */
+import { CDATA } from "../ast-classes";
 
 /**
  * Define all allowed `bold` attributes:
@@ -36,7 +32,7 @@ export const BoldFields = [...LocalizationFields, ...VariableContentFields, ...C
 /**
  * Interface BoldNode defines the attribute types for `bold`
  */
-export interface BoldNodeAttributes extends FiltersNodeAttributes, LocalizationNodeAttributes, ReuseNodeAttributes, ClassNodeAttributes, BaseNode { }
+export interface BoldNodeAttributes extends LocalizationNodeAttributes, VariableContentNodeAttributes, ClassNodeAttributes, BaseNode { }
 
 /**
  * Check if the given attributes of the `bold` node are valid and match this list:
@@ -80,25 +76,21 @@ export function makeBold<T extends Constructor>(constructor: T): T {
  * @param nodeName - A string containing the node name
  * @param isValidBodyField - A boolean value, if the attribute is valid or not
  * @param BodyFields - An array containing all valid attribute names
- * @param childNodes - An array containing all valid child node names: `%all-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `xref`, `data`)
+ * @param childNodes - An Array of allowed child nodes `text`, `ph`, `xref`
 */
-@makeComponent(makeBold, 'b', isValidBoldField, BoldFields, ['%all-inline*'])
+@makeComponent(makeBold, 'b', isValidBoldField, BoldFields, ['%inline.noimage*'])
 export class BoldNode extends AbstractBaseNode implements BoldNodeAttributes {
   static domNodeName = 'b';
-
-  // ClassNodeAttributes
-  'outputclass'?: CDATA
-  'class'?: CDATA
-
-  // ReuseNodeAttributes
-  'id'?: NMTOKEN
-  'conref'?: CDATA
 
   // LocalizationNodeAttributes
   'dir'?: CDATA
   'xml:lang'?: CDATA
   'translate'?: CDATA
 
-  // FiltersNodeAttributes
-  'props'?: CDATA
+  // VariableContentNodeAttributes
+  'keyref'?: CDATA
+
+  // ClassNodeAttributes
+  'outputclass'?: CDATA
+  'class'?: CDATA
 }

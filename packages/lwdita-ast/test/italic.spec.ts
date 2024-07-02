@@ -17,6 +17,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { doNodeTest } from "./tests";
 import { ItalicNode, isItalicNode } from "../src/nodes/italic";
-doNodeTest(ItalicNode, 'i', isItalicNode,
-  ['dir', 'xml:lang', 'translate', 'keyref', 'outputclass', 'class'],
-  ['%all-inline*']);
+import { expect } from "chai";
+
+doNodeTest(
+  ItalicNode,
+  'i',
+  isItalicNode,
+  ['outputclass', 'class', 'keyref', 'dir', 'xml:lang', 'translate'],
+  ['%inline.noimage*']
+);
+
+describe('Class ItalicNode', () => {
+  it('sets correct attributes', () => {
+    const i = new ItalicNode({});
+
+    i.keyref = "keyref";
+    i.outputclass = "outputclass";
+    i.class = "class";
+    i.dir = "dir";
+    i["xml:lang"] = "lang";
+    i.translate = "translate";
+
+    expect(i.keyref).to.equal("keyref");
+    expect(i.outputclass).to.equal("outputclass");
+    expect(i.class).to.equal("class");
+    expect(i.dir).to.equal("dir");
+    expect(i["xml:lang"]).to.equal("lang");
+    expect(i.translate).to.equal("translate");
+  });
+});

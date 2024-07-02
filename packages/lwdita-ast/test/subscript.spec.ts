@@ -17,6 +17,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { doNodeTest } from "./tests";
 import { SubscriptNode, isSubscriptNode } from "../src/nodes/subscript";
-doNodeTest(SubscriptNode, 'sub', isSubscriptNode,
-  ['dir', 'xml:lang', 'translate', 'keyref', 'outputclass', 'class'],
-  ['%all-inline*']);
+import { expect } from "chai";
+
+doNodeTest(
+  SubscriptNode,
+  'sub',
+  isSubscriptNode,
+  ['outputclass', 'class', 'keyref', 'dir', 'xml:lang', 'translate'],
+  ['%inline.noimage*']
+);
+
+describe('Class SubscriptNode', () => {
+  it('sets correct attributes', () => {
+    const sub = new SubscriptNode({});
+
+    sub.keyref = "keyref";
+    sub.outputclass = "outputclass";
+    sub.class = "class";
+    sub.dir = "dir";
+    sub["xml:lang"] = "lang";
+    sub.translate = "translate";
+
+    expect(sub.keyref).to.equal("keyref");
+    expect(sub.outputclass).to.equal("outputclass");
+    expect(sub.class).to.equal("class");
+    expect(sub.dir).to.equal("dir");
+    expect(sub["xml:lang"]).to.equal("lang");
+    expect(sub.translate).to.equal("translate");
+  });
+});

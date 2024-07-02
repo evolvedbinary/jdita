@@ -22,18 +22,25 @@ import { areFieldsValid } from "../utils";
 import { AbstractBaseNode, BaseNode, makeComponent, makeAll, Constructor } from "./base";
 import { FiltersFields, FiltersNodeAttributes, isValidFiltersField, makeFilters } from "./filters";
 import { BasicValue } from "../classes";
-import { CDATA, DisplayExpanse, DisplayFrame, DisplayScale, } from "../ast-classes";
+import { CDATA, DisplayExpanse, DisplayFrame, DisplayScale, NMTOKEN, } from "../ast-classes";
+import { isValidReuseField, makeReuse, ReuseFields, ReuseNodeAttributes } from "./reuse";
 
 /**
  * Define all allowed `fig` attributes:
- * `scale`, `frame`, `expanse`, `props`, `dir`, `xml:lang`, `translate`, `outputclass`, `class`
+ * `scale`, `frame`, `expanse`, `props`, `dir`, `xml:lang`, `translate`, `id`, `conref`, `outputclass`, `class`
  */
-export const FigFields = [...DisplayFields, ...LocalizationFields, ...FiltersFields, ...ClassFields];
+export const FigFields = [...DisplayFields, ...LocalizationFields, ...FiltersFields, ...ReuseFields, ...ClassFields];
 
 /**
  * Interface FigNode defines the attribute types for `fig`
  */
-export interface FigNodeAttributes extends DisplayNodeAttributes, FiltersNodeAttributes, LocalizationNodeAttributes, ClassNodeAttributes, BaseNode { }
+export interface FigNodeAttributes extends
+  DisplayNodeAttributes,
+  FiltersNodeAttributes,
+  ReuseNodeAttributes,
+  LocalizationNodeAttributes,
+  ClassNodeAttributes,
+  BaseNode { }
 
 /**
  * Check if the given attributes of the `fig` node are valid and match this list:
@@ -46,6 +53,7 @@ export interface FigNodeAttributes extends DisplayNodeAttributes, FiltersNodeAtt
 export const isValidFigField = (field: string, value: BasicValue): boolean => isValidDisplayField(field, value)
   || isValidLocalizationField(field, value)
   || isValidFiltersField(field, value)
+  || isValidReuseField (field, value)
   || isValidClassField(field, value);
 
 /**
@@ -67,7 +75,7 @@ export const isFigNode = (value?: unknown): value is FigNodeAttributes =>
  * @returns A `fig` node
  */
 export function makeFig<T extends Constructor>(constructor: T): T {
-  return makeAll(constructor, makeLocalization, makeDisplay, makeFilters, makeClass);
+  return makeAll(constructor, makeLocalization, makeDisplay, makeFilters, makeReuse, makeClass);
 }
 
 /**
@@ -78,16 +86,17 @@ export function makeFig<T extends Constructor>(constructor: T): T {
  * @param nodeName - A string containing the node name
  * @param isValidFigField - A boolean value, if the attribute is valid or not
  * @param FigFields - An array containing all valid attribute names, @see {@link FigFields}
- * @param childNodes - An array containing all valid child node names: `%common-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `data`)
+ * @param childNodes - An array containing all valid child node names: `title?`, `desc?` and  [`p`, `ul`, `ol`, `dl`, `pre`, `audio`, `video`, `example`, `simpletable`, or `image*`, or `xref*`]
  * @returns A `fig` node
  */
 @makeComponent(makeFig, 'fig', isValidFigField, FigFields, ['title?', 'desc?', ['%fig-blocks*', 'image*', 'xref*']])
 export class FigNode extends AbstractBaseNode implements FigNodeAttributes {
   static domNodeName = 'figure';
 
-  // ClassNodeAttributes
-  'outputclass'?: CDATA
-  'class'?: CDATA
+  // DisplayNodeAttributes
+  'scale'?: DisplayScale;
+  'frame'?: DisplayFrame;
+  'expanse'?: DisplayExpanse;
 
   // LocalizationNodeAttributes
   'dir'?: CDATA
@@ -97,8 +106,11 @@ export class FigNode extends AbstractBaseNode implements FigNodeAttributes {
   // FiltersNodeAttributes
   'props'?: CDATA
 
-  // DisplayNodeAttributes
-  'scale'?: DisplayScale;
-  'frame'?: DisplayFrame;
-  'expanse'?: DisplayExpanse;
+  // ReuseNodeAttributes
+  'id'?: NMTOKEN;
+  'conref'?: CDATA;
+
+  // ClassNodeAttributes
+  'outputclass'?: CDATA
+  'class'?: CDATA
 }

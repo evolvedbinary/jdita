@@ -71,18 +71,14 @@ export function makeDlEntry<T extends Constructor>(constructor: T): T {
 }
 
 /**
- * Create a `dlentry` node
- *
- * @privateRemarks
- * TODO: To be removed, make changes to `dl`
- * TODO (Y.): Why is `domNodeName` set to an empty string?
+ * Create a `dlentry` (Description entry) node
  *
  * @decorator `@makeComponent`
  * @param makeDlEntry - The `dlEntry` node constructor
  * @param nodeName - A string containing the node name
  * @param isValidDlEntryField - A boolean value, if the attribute is valid or not
  * @param DlEntryFields - An array containing all valid attribute names @see {@link DlEntryFields}
- * @param childNodes - An array containing all valid child node names: `%common-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `data`)
+ * @param childNodes - An array containing all valid child node names: `dt`, `dd`
  * @returns A `dlentry` node
  */
 @makeComponent(makeDlEntry, 'dlentry', isValidDlEntryField, DlEntryFields, ['dt', 'dd'])

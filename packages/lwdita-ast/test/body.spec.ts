@@ -19,9 +19,13 @@ import { doNodeTest } from "./tests";
 import { BodyNode, isBodyNode } from "../src/nodes/body";
 import { expect } from "chai";
 
-doNodeTest(BodyNode, 'body', isBodyNode,
+doNodeTest(
+  BodyNode,
+  'body',
+  isBodyNode,
   ['dir', 'xml:lang', 'translate', 'outputclass', 'class'],
-  ['%list-blocks*', 'section*', 'fn*']);
+  ['%list-blocks*', 'section*', 'div?']
+);
 
 describe('Class BodyNode', () => {
   it("sets correct attributes", () => {

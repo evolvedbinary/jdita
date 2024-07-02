@@ -68,7 +68,7 @@ export function makeDesc<T extends Constructor>(constructor: T): T {
   return makeAll(constructor, makeLocalization, makeFilters, makeClass);
 }
 /**
- * Create a `desc` node
+ * Create a `desc` (Description) node
  *
  * @privateRemarks
  * TODO: Implement caption/figcaption
@@ -78,10 +78,10 @@ export function makeDesc<T extends Constructor>(constructor: T): T {
  * @param nodeName - A string containing the node name
  * @param isValidDescField - A boolean value, if the attribute is valid or not
  * @param DescFields - An array containing all valid attribute names @See {@link DescFields}
- * @param childNodes - An array containing all valid child node names: `%common-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `data`)
+ * @param childNodes - An array containing all valid child node names: `%inline.noxref*` (`text`, `ph`, `image`)
  * @returns A `desc` node
  */
-@makeComponent(makeDesc, 'desc', isValidDescField, DescFields, ['%common-inline*'])
+@makeComponent(makeDesc, 'desc', isValidDescField, DescFields, ['%inline.noxref*'])
 export class DescNode extends AbstractBaseNode implements DescNodeAttributes {
   static domNodeName = 'caption';
 

@@ -26,10 +26,10 @@ import { BasicValue } from "../classes";
 import { CDATA, ReferenceContentScope } from "../ast-classes";
 
 /**
- * Define all allowed `xref` (cross-reference) attributes:
- * `keyref`, `href`, `format`, `scope`, `outputclass`, `class`, `dir`, `xml:lang`, `translate`, `props`
+ * Define all allowed `xref` (Reference) attributes:
+ * `props`, `dir`, `xml:lang`, `translate`, `href`, `format`, `scope`, `keyref`,`outputclass`, `class`
  */
-export const XRefFields = [...FiltersFields, ...LocalizationFields, ...ClassFields, ...ReferenceContentFields, ...VariableContentFields];
+export const XRefFields = [...FiltersFields, ...LocalizationFields, ...ReferenceContentFields, ...VariableContentFields, ...ClassFields ];
 
 /**
  * Interface XRefNodeAttributes defines the attribute types for `xref`:
@@ -80,9 +80,9 @@ export function makeXRef<T extends Constructor>(constructor: T): T {
  * @param nodeName - A string containing the node name
  * @param isValidXRefField - A boolean value, if the attributes is valid or not
  * @param fields - A List of valid attributes @see {@link XRefFields}
- * @param childNodes - An Array of allowed child node `%common-inline*`: `text`, `ph`, `b`, `i`, `u`, `sub`, `sup` , `image`, `data`
+ * @param childNodes - An Array of allowed child node `%inline.noxref*`: `text`, `ph`, `image`
  */
-@makeComponent(makeXRef, 'xref', isValidXRefField, XRefFields, ['%common-inline*'])
+@makeComponent(makeXRef, 'xref', isValidXRefField, XRefFields, ['%inline.noxref*'])
 export class XRefNode extends AbstractBaseNode implements XRefNodeAttributes {
   static domNodeName = 'a';
 

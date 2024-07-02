@@ -16,14 +16,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { ClassNodeAttributes, ClassFields, isValidClassField, makeClass } from "./class";
-import { ReuseNodeAttributes } from "./reuse";
 import { LocalizationNodeAttributes, LocalizationFields, isValidLocalizationField, makeLocalization } from "./localization";
-import { FiltersNodeAttributes } from "./filters";
 import { areFieldsValid } from "../utils";
 import { makeComponent, AbstractBaseNode, BaseNode, makeAll, Constructor } from "./base";
-import { VariableContentFields, isValidVariableContentField, makeVariableContent } from "./variable-content";
+import { VariableContentFields, VariableContentNodeAttributes, isValidVariableContentField, makeVariableContent } from "./variable-content";
 import { BasicValue } from "../classes";
-import { CDATA, NMTOKEN } from "../ast-classes";
+import { CDATA } from "../ast-classes";
 
 /**
  * Define all allowed `underlined` attributes:
@@ -33,9 +31,8 @@ export const UnderlinedFields = [...LocalizationFields, ...VariableContentFields
 
 /**
  * Interface UnderlinedNodeAttributes defines the attribute types for `underlined`:
- * `CDATA`, `NMTOKEN`
  */
-export interface UnderlinedNodeAttributes extends FiltersNodeAttributes, LocalizationNodeAttributes, ReuseNodeAttributes, ClassNodeAttributes, BaseNode { }
+export interface UnderlinedNodeAttributes extends LocalizationNodeAttributes, VariableContentNodeAttributes, ClassNodeAttributes, BaseNode { }
 
 /**
  * Check if the given attributes of the `underlined` node are valid
@@ -73,33 +70,26 @@ export function makeUnderlined<T extends Constructor>(constructor: T): T {
 /**
  * Create an `underlined` node and map the `underlined` node with the LwDita tag name `u`
  *
- * @privateRemarks
- * TODO: Implement "+ topic/ph hi-d/u "
- *
  * @decorator `@makeComponent`
  * @param makeUnderlined - The `underlined` node constructor
  * @param nodeName - A string containing the node name
  * @param isValidUnderlinedField - A boolean value, if the attributes is valid or not
  * @param fields - A List of valid attributes @See {@link UnderlinedFields}
- * @param childNodes - An Array of allowed child node `%all-inline*`
+ * @param childNodes - An Array of allowed child nodes `text`, `ph`, `xref`
  */
-@makeComponent(makeUnderlined, 'u', isValidUnderlinedField, UnderlinedFields, ['%all-inline*'])
+@makeComponent(makeUnderlined, 'u', isValidUnderlinedField, UnderlinedFields, ['%inline.noimage*'])
 export class UnderlinedNode extends AbstractBaseNode implements UnderlinedNodeAttributes {
   static domNodeName = 'u'
-
-  // ClassNodeAttributes
-  'outputclass'?: CDATA
-  'class'?: CDATA
-
-  // ReuseNodeAttributes
-  'id'?: NMTOKEN
-  'conref'?: CDATA
 
   // LocalizationNodeAttributes
   'dir'?: CDATA
   'xml:lang'?: CDATA
   'translate'?: CDATA
 
-  // FiltersNodeAttributes
-  'props'?: CDATA
+  // VariableContentNodeAttributes
+  'keyref'?: CDATA
+
+  // ClassNodeAttributes
+  'outputclass'?: CDATA
+  'class'?: CDATA
 }

@@ -71,14 +71,14 @@ export function makeDd<T extends Constructor>(constructor: T): T {
 }
 
 /**
- * Create a `dd` node
+ * Create a `dd` (Description) node
  *
  * @decorator `@makeComponent`
  * @param makeDd - The `dd` node constructor
  * @param nodeName - A string containing the node name
  * @param isValidDdField - A boolean value, if the attribute is valid or not
  * @param DdFields - An array containing all valid attribute names, @see {@link DdFields}
- * @param childNodes - An array containing all valid child node names: `%list-blocks*` (`p`, `ul`, `ol`, `dl`, `pre`, `audio`, `video`, `simpletable`, `fig`, `note`, `data`)
+ * @param childNodes - An array containing all valid child node names: `%list-blocks*` (`p`,`ul`, `ol`, `dl`, `pre`, `audio`, `video`, `example`, `simpletable`, `fig`, `note`)
  * @returns A `dd` node
  */
 @makeComponent(makeDd, 'dd', isValidDdField, DdFields, ['%list-blocks*'])

@@ -23,6 +23,9 @@ import { DisplayExpanse, DisplayFrame, DisplayScale, isDisplayExpanse, isDisplay
 
 /**
  * DisplayFields (display attributes): `scale`, `frame`, `expanse`
+ *
+ * @remarks
+ * entity `%display-atts` in LwDITA DTD, @see {@link https://github.com/oasis-tcs/dita-lwdita/blob/b2985f254746b2614c1b9d6a5e6043f82335506f/org.oasis.xdita/dtd/lw-topic.mod#L120}
  */
 export const DisplayFields = ['scale', 'frame', 'expanse'];
 

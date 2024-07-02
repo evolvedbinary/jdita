@@ -44,22 +44,22 @@ export const isReferenceContentNode = (value?: unknown): value is ReferenceConte
 export function makeReferenceContent<T extends { new(...args: any[]): AbstractBaseNode }>(constructor: T): T {
   return class extends constructor implements ReferenceContentNodeAttributes {
     get 'href'(): CDATA | undefined {
-      return this.readProp<CDATA | undefined>('dir');
+      return this.readProp<CDATA | undefined>('href');
     }
     set 'href'(value: CDATA | undefined) {
-      this.writeProp<CDATA | undefined>('dir', value);
+      this.writeProp<CDATA | undefined>('href', value);
     }
     get 'format'(): CDATA | undefined {
-      return this.readProp<CDATA | undefined>('xml:lang');
+      return this.readProp<CDATA | undefined>('format');
     }
     set 'format'(value: CDATA | undefined) {
-      this.writeProp<CDATA | undefined>('xml:lang', value);
+      this.writeProp<CDATA | undefined>('format', value);
     }
     get 'scope'(): ReferenceContentScope | undefined {
-      return this.readProp<ReferenceContentScope | undefined>('translate');
+      return this.readProp<ReferenceContentScope | undefined>('scope');
     }
     set 'scope'(value: ReferenceContentScope | undefined) {
-      this.writeProp<ReferenceContentScope | undefined>('translate', value);
+      this.writeProp<ReferenceContentScope | undefined>('scope', value);
     }
   }
 }

@@ -20,8 +20,8 @@ import { AltNode, isAltNode } from "../src/nodes/alt";
 import { expect } from "chai";
 
 doNodeTest(AltNode, 'alt', isAltNode,
-  ['outputclass', 'class', 'keyref', 'dir', 'xml:lang', 'translate', 'props'],
-  ['(text|%ph|%data)*']);
+  ['outputclass', 'class', 'keyref', 'dir', 'xml:lang', 'translate'],
+  ['(text|%ph)*']);
 
 describe('Class AltNode', () => {
   it("sets correct attributes", () => {
@@ -33,7 +33,6 @@ describe('Class AltNode', () => {
     alt.dir = "dir";
     alt["xml:lang"] = "lang";
     alt.translate = "translate";
-    alt.props = "props";
 
     expect(alt.keyref).to.equal("keyref");
     expect(alt.outputclass).to.equal("outputclass");
@@ -41,6 +40,5 @@ describe('Class AltNode', () => {
     expect(alt.dir).to.equal("dir");
     expect(alt["xml:lang"]).to.equal("lang");
     expect(alt.translate).to.equal("translate");
-    expect(alt.props).to.equal("props");
   });
 });

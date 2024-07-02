@@ -17,6 +17,32 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import { doNodeTest } from "./tests";
 import { UnderlinedNode, isUnderlinedNode } from "../src/nodes/underlined";
-doNodeTest(UnderlinedNode, 'u', isUnderlinedNode,
-  ['dir', 'xml:lang', 'translate', 'keyref', 'outputclass', 'class'],
-  ['%all-inline*']);
+import { expect } from "chai";
+
+doNodeTest(
+  UnderlinedNode,
+  'u',
+  isUnderlinedNode,
+  ['outputclass', 'class', 'keyref', 'dir', 'xml:lang', 'translate'],
+  ['%inline.noimage*']
+);
+
+describe('Class UnderlinedNode', () => {
+  it('sets correct attributes', () => {
+    const u = new UnderlinedNode({});
+
+    u.keyref = "keyref";
+    u.outputclass = "outputclass";
+    u.class = "class";
+    u.dir = "dir";
+    u["xml:lang"] = "lang";
+    u.translate = "translate";
+
+    expect(u.keyref).to.equal("keyref");
+    expect(u.outputclass).to.equal("outputclass");
+    expect(u.class).to.equal("class");
+    expect(u.dir).to.equal("dir");
+    expect(u["xml:lang"]).to.equal("lang");
+    expect(u.translate).to.equal("translate");
+  });
+});

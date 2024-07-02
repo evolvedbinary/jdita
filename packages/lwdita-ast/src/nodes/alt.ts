@@ -16,7 +16,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { LocalizationNodeAttributes, LocalizationFields, isValidLocalizationField, makeLocalization } from "./localization";
-import { FiltersNodeAttributes, FiltersFields, isValidFiltersField, makeFilters } from "./filters";
 import { VariableContentNodeAttributes, VariableContentFields, isValidVariableContentField, makeVariableContent } from "./variable-content";
 import { ClassNodeAttributes, ClassFields, isValidClassField, makeClass } from "./class";
 import { areFieldsValid } from "../utils";
@@ -25,15 +24,15 @@ import { BasicValue } from "../classes";
 import { CDATA } from "../ast-classes";
 
 /**
- * Define all allowed `alt` (cross-reference) fields:
+ * Define all allowed `alt` (Alternative content) fields:
  * `keyref`, `outputclass`, `class`, `dir`, `xml:lang`, `translate`, `props`
  */
-export const AltFields = [...LocalizationFields, ...FiltersFields, ...VariableContentFields, ...ClassFields];
+export const AltFields = [...LocalizationFields, ...VariableContentFields, ...ClassFields];
 
 /**
  * Interface `AltNodeAttributes` defines the attribute types for `alt`:
  */
-export interface AltNodeAttributes extends FiltersNodeAttributes, LocalizationNodeAttributes, VariableContentNodeAttributes, ClassNodeAttributes, BaseNode { }
+export interface AltNodeAttributes extends LocalizationNodeAttributes, VariableContentNodeAttributes, ClassNodeAttributes, BaseNode { }
 
 /**
  * Check if the given fields of the `alt` node are valid and matches this list:
@@ -44,7 +43,6 @@ export interface AltNodeAttributes extends FiltersNodeAttributes, LocalizationNo
  * @returns Boolean
  */
 export const isValidAltField = (field: string, value: BasicValue): boolean => isValidLocalizationField(field, value)
-  || isValidFiltersField(field, value)
   || isValidVariableContentField(field, value)
   || isValidClassField(field, value);
 
@@ -67,7 +65,7 @@ export const isAltNode = (value?: unknown): value is AltNodeAttributes =>
  * @returns An `alt` node
  */
 export function makeAlt<T extends Constructor>(constructor: T): T {
-  return makeAll(constructor, makeLocalization, makeFilters, makeVariableContent, makeClass);
+  return makeAll(constructor, makeLocalization, makeVariableContent, makeClass);
 }
 
 /**
@@ -78,9 +76,9 @@ export function makeAlt<T extends Constructor>(constructor: T): T {
  * @param nodeName - A string containing the node name
  * @param isValidAltField - A boolean value, if the field is valid or not
  * @param fields - A List of valid fields
- * @param childNodes - An Array of allowed child node `text*`, `%ph*`, `%data*`
+ * @param childNodes - An Array of allowed child node `text*` or `%ph*`
  */
-@makeComponent(makeAlt, 'alt', isValidAltField, AltFields, [['text*', '%ph*', '%data*']])
+@makeComponent(makeAlt, 'alt', isValidAltField, AltFields, [['text*', '%ph*']])
 export class AltNode extends AbstractBaseNode implements AltNodeAttributes {
 
   // ClassNodeAttributes
@@ -94,7 +92,4 @@ export class AltNode extends AbstractBaseNode implements AltNodeAttributes {
   'dir'?: CDATA
   'xml:lang'?: CDATA
   'translate'?: CDATA
-
-  // FiltersNodeAttributes
-  'props'?: CDATA
 }

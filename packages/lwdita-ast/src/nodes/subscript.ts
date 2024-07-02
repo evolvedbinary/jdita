@@ -16,26 +16,23 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { ClassNodeAttributes, ClassFields, isValidClassField, makeClass } from "./class";
-import { ReuseNodeAttributes } from "./reuse";
 import { LocalizationNodeAttributes, LocalizationFields, isValidLocalizationField, makeLocalization } from "./localization";
-import { FiltersNodeAttributes } from "./filters";
 import { areFieldsValid } from "../utils";
 import { makeComponent, AbstractBaseNode, BaseNode, makeAll, Constructor } from "./base";
-import { VariableContentFields, isValidVariableContentField, makeVariableContent } from "./variable-content";
+import { VariableContentFields, VariableContentNodeAttributes, isValidVariableContentField, makeVariableContent } from "./variable-content";
 import { BasicValue } from "../classes";
-import { CDATA, NMTOKEN } from "../ast-classes";
+import { CDATA } from "../ast-classes";
 
 /**
- * Define all allowed `subscript` attributes:
- * `dir`, `xml:lang`, `translate`, `keyref`, `class`, `outputclass`
+ * Define all allowed `subscript` (Subscript content) attributes:
+ * `dir`, `xml:lang`, `translate`, `keyref`, `outputclass`, `class`
  */
 export const SubscriptFields = [...LocalizationFields, ...VariableContentFields, ...ClassFields];
 
 /**
  * Interface SubscriptNodeAttributes defines the attribute types for `subscript`:
- * `CDATA`, `NMTOKEN`
  */
-export interface SubscriptNodeAttributes extends FiltersNodeAttributes, LocalizationNodeAttributes, ReuseNodeAttributes, ClassNodeAttributes, BaseNode { }
+export interface SubscriptNodeAttributes extends LocalizationNodeAttributes, VariableContentNodeAttributes, ClassNodeAttributes, BaseNode { }
 
 /**
  * Check if the given attributes of the `subscript` node are valid
@@ -73,33 +70,26 @@ export function makeSubscript<T extends Constructor>(constructor: T): T {
 /**
  * Create a `subscript` node and map the `subscript` node with the LwDita tag name `sb`
  *
- * @privateRemarks
- * TODO: Implement "+ topic/ph hi-d/sub "
- *
  * @decorator `@makeComponent`
  * @param makeSubscript - The `subscript` node constructor
  * @param nodeName - A string containing the node name
  * @param isValidSubscriptField - A boolean value, if the attribute is valid or not
  * @param fields - A List of valid attributes @See {@link SubscriptFields}
- * @param childNodes - An Array of allowed child nodes: `%all-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `xref`, `data`)
+ * @param childNodes - An Array of allowed child nodes `text`, `ph`, `xref`
  */
-@makeComponent(makeSubscript, 'sub', isValidSubscriptField, SubscriptFields, ['%all-inline*'])
+@makeComponent(makeSubscript, 'sub', isValidSubscriptField, SubscriptFields, ['%inline.noimage*'])
 export class SubscriptNode extends AbstractBaseNode implements SubscriptNodeAttributes {
   static domNodeName = 'sub'
-
-  // ClassNodeAttributes
-  'outputclass'?: CDATA
-  'class'?: CDATA
-
-  // ReuseNodeAttributes
-  'id'?: NMTOKEN
-  'conref'?: CDATA
 
   // LocalizationNodeAttributes
   'dir'?: CDATA
   'xml:lang'?: CDATA
   'translate'?: CDATA
 
-  // FiltersNodeAttributes
-  'props'?: CDATA
+  // VariableContentNodeAttributes
+  'keyref'?: CDATA
+
+  // ClassNodeAttributes
+  'outputclass'?: CDATA
+  'class'?: CDATA
 }

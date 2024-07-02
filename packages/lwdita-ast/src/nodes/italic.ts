@@ -16,14 +16,12 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import { ClassNodeAttributes, ClassFields, isValidClassField, makeClass } from "./class";
-import { ReuseNodeAttributes } from "./reuse";
 import { LocalizationNodeAttributes, LocalizationFields, isValidLocalizationField, makeLocalization } from "./localization";
-import { FiltersNodeAttributes } from "./filters";
 import { areFieldsValid } from "../utils";
 import { makeComponent, AbstractBaseNode, BaseNode, makeAll, Constructor } from "./base";
-import { VariableContentFields, isValidVariableContentField, makeVariableContent } from "./variable-content";
+import { VariableContentFields, VariableContentNodeAttributes, isValidVariableContentField, makeVariableContent } from "./variable-content";
 import { BasicValue } from "../classes";
-import { CDATA, NMTOKEN } from "../ast-classes";
+import { CDATA } from "../ast-classes";
 
 /**
  * Define all allowed `i` attributes:
@@ -34,7 +32,7 @@ export const ItalicFields = [...LocalizationFields, ...VariableContentFields, ..
 /**
  * Interface ItalicNodeAttributes defines the attribute types for `i`
  */
-export interface ItalicNodeAttributes extends FiltersNodeAttributes, LocalizationNodeAttributes, ReuseNodeAttributes, ClassNodeAttributes, BaseNode { }
+export interface ItalicNodeAttributes extends LocalizationNodeAttributes, VariableContentNodeAttributes, ClassNodeAttributes, BaseNode { }
 
 /**
  * Check if the given attributes of the `italic` node are valid and match this list:
@@ -80,26 +78,21 @@ export function makeItalic<T extends Constructor>(constructor: T): T {
  * @param makeItalic - The `italic` node constructor
  * @param nodeName - A string containing the node name 'i'
  * @param isValidItalicField - A function to check if the field is valid see {@link isValidItalicField}
- * @param ItalicFields - A list of valid fields `%all-inline*` (`text`, `ph`, `b`, `i`, `u`, `sub`, `sup`, `image`, `xref`, `data`)
- * @returns A decorator
+ * @param ItalicFields - An Array of allowed child nodes `text`, `ph`, `xref`
  */
-@makeComponent(makeItalic, 'i', isValidItalicField, ItalicFields, ['%all-inline*'])
+@makeComponent(makeItalic, 'i', isValidItalicField, ItalicFields, ['%inline.noimage*'])
 export class ItalicNode extends AbstractBaseNode implements ItalicNodeAttributes {
   static domNodeName = 'i';
-
-  // ClassNodeAttributes
-  'outputclass'?: CDATA
-  'class'?: CDATA
-
-  // ReuseNodeAttributes
-  'id'?: NMTOKEN
-  'conref'?: CDATA
 
   // LocalizationNodeAttributes
   'dir'?: CDATA
   'xml:lang'?: CDATA
   'translate'?: CDATA
 
-  // FiltersNodeAttributes
-  'props'?: CDATA
+  // VariableContentNodeAttributes
+  'keyref'?: CDATA
+
+  // ClassNodeAttributes
+  'outputclass'?: CDATA
+  'class'?: CDATA
 }
