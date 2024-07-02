@@ -15,7 +15,7 @@ You should have received a copy of the GNU Affero General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { AbstractBaseNode, DocumentNode, TextNode } from "@evolvedbinary/lwdita-ast";
+import { AbstractBaseNode, CDataNode, DocumentNode, TextNode } from "@evolvedbinary/lwdita-ast";
 import { TextSimpleOutputStream } from "./stream";
 
 /**
@@ -136,6 +136,20 @@ export class XditaSerializer {
   }
 
   /**
+   * Serialize the content of cdata to the output stream
+   *
+   * @param node - the node to serialize the content of
+   */
+    private serializeCData(node: TextNode): void {
+      const props = node.getProps();
+      if (props['content']) {
+        const cdataOpen = `<![CDATA[`;
+        const cdataClose = `]]>`;
+        this.outputStream.emit(cdataOpen + String(props['content']) + cdataClose);
+      }
+    }
+
+  /**
    * Visit a node and serialize it to the output stream
    *
    * @param node - the node to serialize
@@ -153,6 +167,10 @@ export class XditaSerializer {
       if (node instanceof TextNode) {
         // if the node is a text node, serialize its text content
         this.serializeText(node);
+
+      } else if (node instanceof CDataNode) {
+        // if the node is a text node, serialize its text content
+        this.serializeCData(node);
 
       } else {
         // TODO(AR) ideally we should have `node instanceof ElementNode` type guard here

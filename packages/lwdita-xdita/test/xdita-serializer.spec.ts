@@ -18,7 +18,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import { expect } from 'chai';
 import { XditaSerializer } from '../src/xdita-serializer';
 import { InMemoryTextSimpleOutputStreamCollector } from '../src/stream';
-import { DocumentNode, TextNode, TitleNode, TopicNode } from "@evolvedbinary/lwdita-ast"
+import { CDataNode, DocumentNode, TextNode, TitleNode, TopicNode } from "@evolvedbinary/lwdita-ast"
+import { xditaToAst } from '../src/converter';
 
 describe('XditaSerializer', () => {
   let outStream: InMemoryTextSimpleOutputStreamCollector;
@@ -92,5 +93,39 @@ describe('XditaSerializer', () => {
 
     // expect the output stream to contain the correct XML with attributes
     expect(outStream.getText()).equal('<topic><title dir="ltr" class="title"/></topic>');
+  });
+
+  it('serialize a document with cdata', () => {
+    // test setup
+    const document = new DocumentNode();
+    const topic = new TopicNode();
+    document.add(topic);
+    const title = new TitleNode();
+    const cdata = new CDataNode('cdata');
+    title.add(cdata);
+    topic.add(title);
+
+    // perform serialization
+    serializer.serialize(document);
+
+    // expect the output stream to contain the correct XML with attributes
+    expect(outStream.getText()).equal('<topic><title><![CDATA[cdata]]></title></topic>');
+  });
+});
+
+describe('complete round trip using xdita serializer', () => {
+  it('round trip from xdita and back with cdata', async () => {
+
+    const orginalXdita = `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD LIGHTWEIGHT DITA Topic//EN" "lw-topic.dtd"><topic><title><![CDATA[cdata]]></title></topic>`
+    
+    const orginalAst = await xditaToAst(orginalXdita);
+    // perform serialization
+    const outStream = new InMemoryTextSimpleOutputStreamCollector();
+    const serializer = new XditaSerializer(outStream);
+    serializer.serialize(orginalAst);
+
+    const xdita = `<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE topic PUBLIC "-//OASIS//DTD LIGHTWEIGHT DITA Topic//EN" "lw-topic.dtd">` + outStream.getText();
+
+    expect(orginalXdita).deep.equal(xdita);
   });
 });

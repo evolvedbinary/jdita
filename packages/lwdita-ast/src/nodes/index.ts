@@ -21,6 +21,7 @@ export * from './base';
 export * from './body';
 export * from './bold';
 export * from './class';
+export * from './cdata';
 export * from './data';
 export * from './dd';
 export * from './desc';

@@ -16,10 +16,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import * as saxes from "@rubensworks/saxes";
-import { BaseNode, DocumentNode } from "@evolvedbinary/lwdita-ast";
+import { BaseNode, DocumentNode, JDita } from "@evolvedbinary/lwdita-ast";
 import { createNode } from "./factory";
 import { InMemoryTextSimpleOutputStreamCollector } from "./stream";
-import { JDita } from "@evolvedbinary/lwdita-ast";
 import { XditaSerializer } from "./xdita-serializer";
 
 /** TODO: Add tests for this module */
@@ -63,7 +62,6 @@ export async function xditaToAst(xml: string, abortOnError = true): Promise<Docu
       if (wsRegEx.test(text) && !parentNode.canAdd(node)) {
         return;
       }
-
       // add the text node to the parent
       stack[stack.length - 1].add(node, abortOnError);
     });
@@ -108,6 +106,16 @@ export async function xditaToAst(xml: string, abortOnError = true): Promise<Docu
     parser.on("closetag", function () {
       stack.pop();
     });
+
+    parser.on("cdata", (cdata) => {
+      try {        
+        const obj = createNode(cdata, true);
+        stack[stack.length - 1].add(obj, abortOnError);
+
+      } catch (e) {
+        console.log('invalid:', e);
+      }
+    })
 
     // return the document tree if run without errors
     parser.on("end", function () {
