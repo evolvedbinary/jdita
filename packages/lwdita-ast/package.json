@@ -33,7 +33,7 @@
     "rimraf": "^5.0.7",
     "typedoc": "^0.25.13",
     "typedoc-plugin-missing-exports": "^3.0.0",
-    "typescript": "5.4.5"
+    "typescript": "5.5.3"
   },
   "packageManager": "yarn@4.2.2"
 }
